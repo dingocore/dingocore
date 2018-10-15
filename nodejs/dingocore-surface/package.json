@@ -1,0 +1,35 @@
+{
+  "name": "dingocore-surface",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "babel src -d dist -D",
+    "clean": "rm -rf dist/",
+    "test": "mocha",
+    "prepublish": "npm run build"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-preset-env": "^1.7.0"
+  },
+  "babel": {
+    "sourceMaps": "inline",
+    "presets": [
+      [
+        "env",
+        {
+          "targets": {
+            "node": 10
+          }
+        }
+      ]
+    ]
+  },
+  "dependencies": {
+    "mqtt": "^2.18.8"
+  }
+}
