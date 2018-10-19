@@ -1,32 +1,32 @@
 import React, { Component } from 'react';
-//import logo from './logo.svg';
-import { Connector } from 'mqtt-react';
-import './App.css';
-import { subscribe } from 'mqtt-react';
+import Connection from './Connection';
+import { createStore, combineReducers } from 'redux'
 
-import dingo from 'dingocore-surface';
+import connectionsReducer from 'dingocore-redux/dist/reducers/connections';
+import endpointsReducer from 'dingocore-redux/dist/reducers/endpoints';
+import servicesReducer from 'dingocore-redux/dist/reducers/services';
+import propertiesReducer from 'dingocore-redux/dist/reducers/properties';
+
+//import logo from './logo.svg';
+import './App.css';
 
 import '@patternfly/react-core/dist/styles/base.css';
 
 import { Nav, NavItem, Page, PageHeader, PageSection, PageSidebar } from '@patternfly/react-core';
 
+const rootReducer = combineReducers({
+  automation: combineReducers( {
+    connections: connectionsReducer,
+    endpoints: endpointsReducer,
+    services: servicesReducer,
+    properties: propertiesReducer,
+  })
+})
 
-console.log( dingo );
-
-const Debug = (props) => (
-  <ul>
-    {props.data.map( message => <li>{message}</li>)}
-  </ul>
-);
-
-const customDispatch = (topic, message)=>{
-  console.log( topic, new TextDecoder("UTF-8").decode(message) );
-}
-
-const DebugSubscribed = subscribe({
-  topic: '#',
-  dispatch: customDispatch
-})(Debug);
+const store = createStore(
+  rootReducer,
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+)
 
 const Header = (
   <PageHeader logo="Logo" toolbar="Toolbar" avatar=" | Avatar" />
@@ -44,24 +44,16 @@ const Sidebar = (
   <PageSidebar nav={Navigation} isNavOpen={true}/>
 );
 
-
-
 class App extends Component {
   render() {
     return (
-      <Connector mqttProps="ws://localhost:9001/">
-        <Page sidebar={Sidebar} header={Header}>
-          <PageSection>Hi</PageSection>
-        </Page>
-      </Connector>
+      <Page sidebar={Sidebar} header={Header}>
+        <Connection store={store} url="ws://localhost:9001/">
+          <PageSection>Connected</PageSection>
+        </Connection>
+      </Page>
     );
   }
 }
 
-        //<div className="App">
-          //<header className="App-header">
-            //<h1 className="App-title">Welcome</h1>
-          //</header>
-          //<DebugSubscribed/>
-        //</div>
 export default App;

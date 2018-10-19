@@ -1,9 +1,9 @@
-import { add_connection, update_hardware_revision, update_connection_state } from "./actions/connections";
-import { add_endpoint, update_endpoint_name } from "./actions/endpoints";
+import { add_connection, update_connection_state } from "./actions/connections";
+import { add_endpoint, update_hardware_revision, update_endpoint_name, update_endpoint_manufacturer, update_endpoint_model } from "./actions/endpoints";
+import { add_service, update_service_name, update_service_type } from "./actions/services";
+import { add_property, update_property_name, update_property_datatype, update_property_settable, update_property_value } from "./actions/properties";
 
 import encoding from 'text-encoding';
-import { add_service, update_service_name } from "./actions/services";
-import { add_property, update_property_name, update_property_datatype, update_property_value } from "./actions/properties";
 const Decoder = new encoding.TextDecoder('UTF-8');
 //const decode = Decoder.decode.bind( Decoder );
 const decode = (message)=>{
@@ -40,6 +40,7 @@ class DingoProcessor {
             let connection = this._connections[connection_id];
             if ( ! connection ) {
                 connection = new ConnectionProcessor(this, connection_id);
+                this._connections[connection_id] = connection;
                 this.dispatch(add_connection(connection_id));
             }
             connection.process(segments, message);
@@ -88,6 +89,7 @@ class ConnectionProcessor {
         let endpoint = this._endpoints[endpoint_id];
         if ( ! endpoint ) {
             endpoint = new EndpointProcessor(this, endpoint_id);
+            this._endpoints[endpoint_id] = endpoint;
             this.dispatch(add_endpoint( this.connection_id(), endpoint_id ));
         }
         endpoint.process(segments, message);
@@ -155,7 +157,7 @@ class EndpointProcessor {
         let service = this._services[service_id];
         if ( !service ) {
             service = new ServiceProcessor(this, service_id);
-            console.log( "add service: " + service_id);
+            this._services[service_id] = service;
             this.dispatch(add_service(this.connection_id(), this.endpoint_id(), service_id));
         }
 
@@ -221,6 +223,7 @@ class ServiceProcessor {
         let property = this._properties[property_id];
         if ( ! property ) {
             property = new PropertyProcessor(this, property_id);
+            this._properties[property_id] = property;
             this.dispatch(add_property(this.connection_id(), this.endpoint_id(),  this.service_id(), property_id ));
         }
 
@@ -275,7 +278,7 @@ class PropertyProcessor {
             } else if ( name == '$datatype' ) {
                 this.dispatch( update_property_datatype(this.connection_id(), this.endpoint_id(), this.service_id(), this.property_id(), decode(message)));
             } else if ( name == '$settable' ) {
-                this.dispatch( update_settable(this.connection_id(), this.endpoint_id(), this.service_id(), this.property_id(), decode(message)));
+                this.dispatch( update_property_settable(this.connection_id(), this.endpoint_id(), this.service_id(), this.property_id(), decode(message)));
             }
         }
     }

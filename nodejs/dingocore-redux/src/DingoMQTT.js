@@ -1,4 +1,5 @@
 import MQTT from 'mqtt';
+import { DingoProcessor } from '../dist/MessageProcessors';
 
 class DingoMQTT {
 
@@ -7,20 +8,26 @@ class DingoMQTT {
         this._store = store;
     }
 
-    connect() {
+    connect(callback) {
+        this._callback = callback;
+        this._processor = new DingoProcessor(this._store);
         this.client = MQTT.connect(this._url);
         this.client.on( 'connect', this._on_connect.bind(this));
         this.client.on( 'message', this._on_message.bind(this));
     }
 
     _on_connect() {
+        this._callback();
         this.client.subscribe('#', (err)=>{
-            console.log("error subscribing");
+            if ( err ) { 
+              console.log("error subscribing", err);
+            }
         });
     }
 
     _on_message(topic, message) {
-        this.store.dispatch()
+        console.log( "received:", topic, message);
+        this._processor.process(topic, message);
     }
 
     _to_action(topic, message) {
@@ -34,7 +41,7 @@ class DingoMQTT {
     }
 }
 
-export default MQTT;
+export default DingoMQTT;
 
 /*
 message on dingo/16:BD:8D:FE:CC:B6/$state // lost
