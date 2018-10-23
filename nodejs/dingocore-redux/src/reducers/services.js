@@ -20,6 +20,16 @@ export default (state=[], action)=>{
             });
             return nextState;
         }
+        case actionTypes.UPDATE_SERVICE_TYPE: {
+            let nextState = state.map( e=>{
+                if ( e.id == action.payload.id ) {
+                    return Object.assign( {}, e, { type: action.payload.type } );
+                } else {
+                    return e;
+                }
+            });
+            return nextState;
+        }
         default: {
             return state;
         }

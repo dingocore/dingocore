@@ -11,7 +11,7 @@ const mockStore = configureStore([])
 
 var assert = require('assert');
 
-describe('DingoProcess', function() {
+describe('MessageProcessors', function() {
   describe('processing messages', function() {
     it('deep state should be created from single messages', function() {
       const store = mockStore({});
