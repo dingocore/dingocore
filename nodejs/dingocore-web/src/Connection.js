@@ -10,7 +10,7 @@ class Connection extends Component {
     }
 
     componentWillMount() {
-        console.log( DingoMQTT );
+        console.log( "MOUNTING" );
         this.client = new DingoMQTT(this.props.url, this.props.store);
         this.client.connect(this.connected.bind(this));
     }

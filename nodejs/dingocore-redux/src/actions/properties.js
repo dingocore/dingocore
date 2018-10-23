@@ -64,14 +64,11 @@ function update_property_value(connection_id, endpoint_id, service_id, id, value
     }
 }
 
-function push_update_property_value(connection_id, endpoint_id, service_id, id, value) {
+function push_update_property_value(property, value) {
     return {
         type: actionTypes.PUSH_UPDATE_PROPERTY_VALUE,
         payload: {
-            connection_id,
-            endpoint_id,
-            service_id,
-            id,
+            property,
             value
         }
     }

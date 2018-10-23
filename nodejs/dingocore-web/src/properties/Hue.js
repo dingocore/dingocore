@@ -4,11 +4,13 @@ import { connect } from 'react-redux';
 
 import { push_update_property_value } from 'dingocore-redux/dist/actions/properties';
 
-const Hue = ({ hue, onChange }) => {
+const Hue = ({ property, onChange }) => {
     console.log("my onchange", onChange);
+    const hsl = { h: property.value, s: 0.5, l: 100}
     return (
         <HuePicker
-            onChange={onChange}
+            color={hsl}
+            onChangeComplete={onChange}
         />
     )
 }
@@ -21,11 +23,8 @@ export default connect(
             onChange: (value) => {
                 console.log( "dispatch onchange", value );
                 dispatch(push_update_property_value(
-                    props.property.connection_id,
-                    props.property.endpoint_id,
-                    props.property.service_id,
-                    props.property.id,
-                    value.hsl.h
+                    props.property,
+                    "" + Math.trunc(value.hsl.h)
                 ))
             }
         }

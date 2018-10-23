@@ -10,7 +10,7 @@ class Property extends Component {
     render() {
         if ( this.props.property.id === 'Hue' ) {
             return (
-                <Hue property={this.props.properties}></Hue>
+                <Hue property={this.props.property}></Hue>
             )
         } else {
             return null;

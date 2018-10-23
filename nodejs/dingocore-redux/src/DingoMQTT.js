@@ -1,6 +1,10 @@
 import MQTT from 'mqtt';
 import { DingoProcessor } from '../dist/MessageProcessors';
 
+const settableTopic = (property)=>{
+    return `dingo/${property.connection_id}/${property.endpoint_id}/${property.service_id}/${property.id}/set`;
+}
+
 class DingoMQTT {
 
     constructor(url, store) {
@@ -14,6 +18,11 @@ class DingoMQTT {
         this.client = MQTT.connect(this._url);
         this.client.on( 'connect', this._on_connect.bind(this));
         this.client.on( 'message', this._on_message.bind(this));
+    }
+
+    pushPropertyValue(property, value) {
+        console.log( "publish to " + settableTopic(property), value);
+        this.client.publish(settableTopic(property), value);
     }
 
     _on_connect() {
