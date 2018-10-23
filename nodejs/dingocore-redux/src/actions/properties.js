@@ -64,10 +64,24 @@ function update_property_value(connection_id, endpoint_id, service_id, id, value
     }
 }
 
+function push_update_property_value(connection_id, endpoint_id, service_id, id, value) {
+    return {
+        type: actionTypes.PUSH_UPDATE_PROPERTY_VALUE,
+        payload: {
+            connection_id,
+            endpoint_id,
+            service_id,
+            id,
+            value
+        }
+    }
+}
+
 export {
     add_property,
     update_property_name,
     update_property_datatype,
     update_property_settable,
     update_property_value,
+    push_update_property_value,
 }

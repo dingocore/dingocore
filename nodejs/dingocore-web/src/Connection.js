@@ -11,13 +11,19 @@ class Connection extends Component {
 
     componentWillMount() {
         console.log( DingoMQTT );
-        const client = new DingoMQTT(this.props.url, this.props.store);
-        client.connect(this.connected.bind(this));
+        this.client = new DingoMQTT(this.props.url, this.props.store);
+        this.client.connect(this.connected.bind(this));
     }
 
     connected() {
         console.log( "signal connected");
         this.setState( {connected: true} );
+        this.props.store.dispatch( {
+            type: 'CONNECTED',
+            payload: {
+                client: this.client,
+            }
+        });
     }
 
     render() {

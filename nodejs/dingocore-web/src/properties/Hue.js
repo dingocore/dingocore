@@ -1,24 +1,33 @@
 import React, { Component } from 'react'
 import { HuePicker } from 'react-color';
+import { connect } from 'react-redux';
 
-class Hue extends Component {
+import { push_update_property_value } from 'dingocore-redux/dist/actions/properties';
 
-    constructor(props) {
-        super(props);
-        this.onChange = this.onChange.bind(this);
-    }
-
-    onChange(value) {
-        console.log( "hue changed", value);
-    }
-
-    render() {
-        return (
-          <HuePicker
-            onChange={this.onChange}
-          />
-        );
-    }
+const Hue = ({ hue, onChange }) => {
+    console.log("my onchange", onChange);
+    return (
+        <HuePicker
+            onChange={onChange}
+        />
+    )
 }
 
-export default Hue;
+export default connect(
+    null,
+    (dispatch, props) => {
+        console.log("map dispatch to props", dispatch, props);
+        return {
+            onChange: (value) => {
+                console.log( "dispatch onchange", value );
+                dispatch(push_update_property_value(
+                    props.property.connection_id,
+                    props.property.endpoint_id,
+                    props.property.service_id,
+                    props.property.id,
+                    value.hsl.h
+                ))
+            }
+        }
+    }
+)(Hue);
