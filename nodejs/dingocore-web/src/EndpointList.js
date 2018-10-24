@@ -11,7 +11,7 @@ const EndpointList = ({endpoints})=>{
       <div>
         {endpoints.map( e=>{
             return (
-                <Endpoint key={e.id} id={e.id} name={e.name}></Endpoint>
+                <Endpoint endpoint={e}/>
             )
         })}
       </div>
@@ -21,7 +21,6 @@ const EndpointList = ({endpoints})=>{
 
 export default connect(
     (state)=>{
-        console.log( "mapping", state);
         return {
             endpoints: state.automation.endpoints
         }

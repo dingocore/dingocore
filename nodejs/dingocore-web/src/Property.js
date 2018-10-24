@@ -1,20 +1,21 @@
 
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import Hue from './properties/Hue';
+import On from './properties/On';
+import { connect } from 'react-redux';
 
-class Property extends Component {
-    constructor(props) {
-        super(props);
-    }
-
-    render() {
-        if ( this.props.property.id === 'Hue' ) {
-            return (
-                <Hue property={this.props.property}></Hue>
-            )
-        } else {
-            return null;
-        }
+const Property = ({ property }) => {
+    if (property.id === 'Hue') {
+        return (
+          <Hue property={property}/>
+        )
+        return null;
+    } else if (property.id == 'On') {
+        return (
+            <On property={property} />
+        )
+    } else {
+        return null;
     }
 }
 

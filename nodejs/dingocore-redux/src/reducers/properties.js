@@ -22,7 +22,12 @@ export default (state=[], action)=>{
         }
         case actionTypes.UPDATE_PROPERTY_VALUE: {
             let nextState = state.map( e=>{
-                if ( e.id == action.payload.id ) {
+                if ( 
+                    e.id == action.payload.id &&
+                    e.service_id == action.payload.service_id &&
+                    e.endpoint_id == action.payload.endpoint_id &&
+                    e.connection_id == action.payload.connection_id 
+                ) {
                     return Object.assign( {}, e, { value: action.payload.value } );
                 } else {
                     return e;

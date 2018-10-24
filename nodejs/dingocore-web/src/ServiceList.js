@@ -4,13 +4,13 @@ import Service from './Service';
 
 import React, { Component } from 'react';
 
-const ServiceList = ({endpoint_id, services})=>{
-    console.log( 'render', services);
+const ServiceList = ({services})=>{
     return (
       <div>
+          <div>Services</div>
         {services.map( e=>{
             return (
-                <Service key={e.id} service={e}></Service>
+                <Service service={e}></Service>
             )
         })}
       </div>
@@ -18,11 +18,4 @@ const ServiceList = ({endpoint_id, services})=>{
     )
 }
 
-export default connect(
-    (state, props)=>{
-        console.log( "mapping for ", props, state);
-        return {
-            services: state.automation.services.filter(e=>e.endpoint_id==props.endpoint_id)
-        }
-    }
-)(ServiceList);
+export default ServiceList;

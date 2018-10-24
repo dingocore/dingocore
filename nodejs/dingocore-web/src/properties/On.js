@@ -1,18 +1,42 @@
-import React, { Component } from 'react'
-import { HuePicker } from 'react-color';
+import React, { Component } from 'react';
+import { Button } from '@patternfly/react-core';
 import { connect } from 'react-redux';
-
 import { push_update_property_value } from 'dingocore-redux/dist/actions/properties';
 
-const Hue = ({ property, onChange }) => {
-    console.log("my onchange", onChange);
-    const hsl = { h: property.value, s: 0.5, l: 100}
-    return (
-        <HuePicker
-            color={hsl}
-            onChangeComplete={onChange}
-        />
-    )
+import 'rc-slider/assets/index.css';
+
+class On extends Component {
+    constructor(props) {
+        super(props);
+        this.onClick = this.onClick.bind(this);
+        console.log("===>", this.props.value, typeof this.props.value);
+    }
+
+    onClick(event) {
+        //this.on = this.toggleState();
+        //console.log("button click", this.on);
+        if (this.props.value == 'true') {
+            this.props.onChange('false');
+        } else {
+            this.props.onChange('true');
+        }
+    }
+
+    render() {
+        let variant = 'secondary';
+        let text = 'off';
+        console.log("RENDER RENDER", this.props);
+        if (this.props.value == 'true') {
+            console.log("*** RENDER AS ON");
+            variant = 'primary';
+            text = 'on';
+        }
+        return (
+            <div>
+                <Button variant={variant} onClick={this.onClick}>{text}</Button>
+            </div>
+        )
+    }
 }
 
 export default connect(
@@ -39,9 +63,9 @@ export default connect(
                 console.log("dispatch onchange", value);
                 dispatch(push_update_property_value(
                     props.property,
-                    Math.trunc( value.hsl.h).toString()
+                    value,
                 ))
             }
         }
     }
-)(Hue);
+)(On);

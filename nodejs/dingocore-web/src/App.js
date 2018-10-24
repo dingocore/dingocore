@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
-import Connection from './Connection';
+import Automation from './Automation';
 import { compose, createStore, combineReducers, applyMiddleware } from 'redux'
 
 import connectionsReducer from 'dingocore-redux/dist/reducers/connections';
@@ -84,7 +84,7 @@ class App extends Component {
   render() {
     return (
       <Provider store={store}>
-        <Connection store={store} url="ws://localhost:9001/">
+        <Automation store={store} url="ws://localhost:9001/">
           <Grid>
             <GridItem sm={0} xl={4}>
               Navigation
@@ -94,7 +94,7 @@ class App extends Component {
               <EndpointList></EndpointList>
             </GridItem>
           </Grid>
-        </Connection>
+        </Automation>
       </Provider>
     );
   }
