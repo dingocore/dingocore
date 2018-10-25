@@ -2,13 +2,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Connection from './Connection';
+import { allConnections } from 'dingocore-redux/dist/selectors/connections'
 
-const ConnectionList = ({connections})=>{
+const ConnectionList = ({ connections }) => {
     return (
         <div>
             {
-                connections.map(e=>{
-                    <Connection entity={e}/>
+                connections.map(e => {
+                    return (<Connection connection={e} />);
                 })
             }
         </div>
@@ -17,8 +18,10 @@ const ConnectionList = ({connections})=>{
 }
 
 export default connect(
-    (state)=>{
-        connections: this.state.connections
+    (state) => {
+        return {
+            connections: allConnections(state)
+        }
     }
 )(ConnectionList);
 

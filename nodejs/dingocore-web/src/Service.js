@@ -1,13 +1,13 @@
-
-import React, { Component } from 'react';
+import React from 'react';
 import PropertyList from './PropertyList';
 import { connect } from 'react-redux';
+import './Service.css';
 
 const Service = ({ service, properties }) => {
     return (
-        <div>
-            <div>Service {service.name}</div>
-            <PropertyList properties={properties}/>
+        <div className="Service">
+            <div>{service.name}</div>
+            <PropertyList properties={properties} />
         </div>
     )
 }

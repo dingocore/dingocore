@@ -1,10 +1,15 @@
 
 import React from 'react';
-import { connect } from 'mqtt';
+import EndpointList from './EndpointList';
+import { connect } from 'react-redux';
+import { endpointsForConnection } from 'dingocore-redux/dist/selectors/endpoints'
+
+import './Connection.css';
 
 const Connection = ({ connection, endpoints }) => {
+    console.log( "RENDER CONNECTION", endpoints);
     return (
-        <div>
+        <div className="Connection">
             <div>{connection.id}</div>
             <EndpointList endpoints={endpoints}/>
         </div>
@@ -13,8 +18,9 @@ const Connection = ({ connection, endpoints }) => {
 
 export default connect(
     (state, props) =>{
+        console.log( "map state for Connection", endpointsForConnection(state, props.connection) );
         return {
-            endpoints: state.automation.endpoints.filter(e=>e.connection_id = props.connection.id)
+            endpoints: endpointsForConnection(state, props.connection)
         }
     }
-)
+)(Connection)

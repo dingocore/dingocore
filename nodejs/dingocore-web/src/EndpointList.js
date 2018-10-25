@@ -5,7 +5,7 @@ import React, { Component } from 'react';
 import Endpoint from './Endpoint';
 
 
-const EndpointList = ({endpoints})=>{
+const EndpointList = ({endpoints=[]})=>{
     console.log( 'render endpoints list', endpoints);
     return (
       <div>
@@ -19,6 +19,7 @@ const EndpointList = ({endpoints})=>{
     )
 }
 
+/*
 export default connect(
     (state)=>{
         return {
@@ -26,3 +27,5 @@ export default connect(
         }
     }
 )(EndpointList);
+*/
+export default EndpointList;

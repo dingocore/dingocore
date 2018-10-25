@@ -5,18 +5,12 @@ import On from './properties/On';
 import { connect } from 'react-redux';
 
 const Property = ({ property }) => {
-    if (property.id === 'Hue') {
-        return (
-          <Hue property={property}/>
-        )
-        return null;
-    } else if (property.id == 'On') {
-        return (
-            <On property={property} />
-        )
-    } else {
-        return null;
-    }
+    return (
+        <div className="Property">
+            {(property.id === 'Hue') ? <Hue property={property} /> : null}
+            {(property.id === 'On') ? <On property={property} /> : null}
+        </div>
+    )
 }
 
 export default Property;

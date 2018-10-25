@@ -14,8 +14,8 @@ import './App.css';
 
 import '@patternfly/react-core/dist/styles/base.css';
 
-import { Nav, NavItem, Grid, GridItem, PageHeader, PageSection, PageSidebar } from '@patternfly/react-core';
-import EndpointList from './EndpointList';
+import { Nav, NavItem, Grid, GridItem, PageHeader, PageSidebar } from '@patternfly/react-core';
+import ConnectionList from './ConnectionList';
 
 const rootReducer = combineReducers({
   automation: combineReducers({
@@ -91,7 +91,7 @@ class App extends Component {
             </GridItem>
 
             <GridItem sm={12} xl={4}>
-              <EndpointList></EndpointList>
+              <ConnectionList/>
             </GridItem>
           </Grid>
         </Automation>

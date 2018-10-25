@@ -2,12 +2,12 @@
 import React from 'react';
 import ServiceList from './ServiceList';
 import { connect } from 'react-redux';
+import './Endpoint.css'
 
 const Endpoint = ({endpoint, services})=>{
     return (
-        <div>
-            <span>Endpoint {endpoint.name}</span>
-            <div>my services</div>
+        <div className="Endpoint">
+            <span>{endpoint.name}</span>
             <ServiceList services={services}/>
         </div>
     )

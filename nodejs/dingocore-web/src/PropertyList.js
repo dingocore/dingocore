@@ -4,14 +4,12 @@ import On from './properties/On';
 import Property from './Property';
 import { connect } from 'net';
 
-const PropertyList = ({properties})=>{
+const PropertyList = ({ properties }) => {
     return (
         <div>
-            <div>Properties</div>
-            { 
-                properties.map(e=>{
-                    console.log( "RENDER PROP", e);
-                   return <Property property={e}/>
+            {
+                properties.map(e => {
+                    return <Property property={e} />
                 })
             }
         </div>
