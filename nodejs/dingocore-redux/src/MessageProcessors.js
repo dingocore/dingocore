@@ -20,6 +20,7 @@ class DingoProcessor {
 
     process(topic, message) {
         let segments = topic.split('/');
+        console.log( "process.dingo", segments);
         this.process_root(segments, message);
         this.process_connection(segments, message);
     }
@@ -31,10 +32,11 @@ class DingoProcessor {
             }
             segments.shift();
         }
-        this.process_connection(segments, message);
+        //this.process_connection(segments, message);
     }
 
     process_connection(segments, message) {
+        console.log( "now process_connection", segments);
         if ( segments.length > 0 ) {
             const connection_id = segments.shift();
             let connection = this._connections[connection_id];
@@ -64,6 +66,7 @@ class ConnectionProcessor {
     }
 
     process(segments, message) {
+        console.log( "process.connection", segments);
         if ( segments.length == 0 ) {
             return;
         }
@@ -119,6 +122,7 @@ class EndpointProcessor {
         if ( segments.length == 0 ) {
             return;
         }
+        console.log( "process.endpoint", segments);
 
         this.process_internal(segments, message);
         this.process_service(segments, message);
@@ -152,7 +156,6 @@ class EndpointProcessor {
         if ( segments.length == 0 ) {
             return;
         }
-
         const service_id = segments.shift();
         let service = this._services[service_id];
         if ( !service ) {
@@ -193,6 +196,8 @@ class ServiceProcessor {
         if ( segments.length == 0 ) {
             return;
         }
+        console.log( "process.service", segments);
+
 
         this.process_internal(segments, message);
         this.process_property(segments, message);
@@ -262,6 +267,7 @@ class PropertyProcessor {
             this.dispatch( update_property_value(this.connection_id(), this.endpoint_id(), this.service_id(), this.property_id(), decode(message)));
             return;
         }
+        console.log( "process.property", segments);
 
         this.process_internal(segments, message);
     }
